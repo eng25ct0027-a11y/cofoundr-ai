@@ -1,0 +1,48 @@
+/* ===== Design tokens ===== */
+:root {
+  --violet: #7657ff;
+  --violet-600: #6544f0;
+  --violet-700: #5636d8;
+  --violet-50: #f2efff;
+  --violet-100: #e5dfff;
+  --blue: #3978ff;
+  --blue-600: #2a66ea;
+  --blue-50: #eef4ff;
+  --ink: #101828;
+  --slate: #1e293b;
+  --muted: #667085;
+  --muted-light: #98a2b3;
+  --line: #e4e7ec;
+  --line-strong: #d0d5dd;
+  --surface: #f8fafc;
+  --surface-2: #f2f4f7;
+  --white: #ffffff;
+  --green: #10b981;
+  --green-50: #ecfdf3;
+  --orange: #f79009;
+  --orange-50: #fffaeb;
+  --red: #ef4444;
+  --red-50: #fef3f2;
+  --pink: #ec4899;
+  --pink-50: #fdf2f8;
+  --cyan: #06b6d4;
+  --cyan-50: #ecfeff;
+
+  --radius-sm: 10px;
+  --radius: 16px;
+  --radius-lg: 22px;
+  --radius-xl: 28px;
+
+  --shadow-xs: 0 1px 2px rgba(16, 24, 40, 0.05);
+  --shadow-sm: 0 1px 3px rgba(16, 24, 40, 0.08), 0 1px 2px rgba(16, 24, 40, 0.04);
+  --shadow-md: 0 8px 24px rgba(16, 24, 40, 0.08);
+  --shadow-lg: 0 20px 48px rgba(16, 24, 40, 0.14);
+  --shadow-violet: 0 18px 40px rgba(118, 87, 255, 0.26);
+
+  --font-body: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-display: 'Sora', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+
+  --max: 1200px;
+  --topbar-h: 72px;
+  --sidebar-w: 264px;
+}
