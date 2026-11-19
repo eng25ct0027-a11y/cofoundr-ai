@@ -4,9 +4,12 @@ let socket = null;
 
 export function connectSocket() {
   if (socket?.connected) return socket;
-  socket = io('/', {
+  const isRemote = Boolean(import.meta.env.VITE_SOCKET_URL);
+  socket = io(import.meta.env.VITE_SOCKET_URL || undefined, {
+    path: import.meta.env.VITE_SOCKET_PATH || '/socket.io',
     withCredentials: true,
-    transports: ['websocket', 'polling'],
+    // Vercel Functions only support WebSocket upgrades; keep polling locally.
+    transports: isRemote ? ['websocket'] : ['websocket', 'polling'],
     autoConnect: true,
     reconnectionAttempts: 8,
   });

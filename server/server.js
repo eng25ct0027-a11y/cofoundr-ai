@@ -4,12 +4,20 @@ const config = require('./config/env');
 const { connectDB, disconnectDB } = require('./config/db');
 const { initSocket } = require('./sockets');
 
-async function start() {
-  await connectDB();
+// Connect as soon as the module is imported. Vercel imports this file without
+// calling listen(), and Mongoose buffers queries until the connection is ready.
+const dbReady = connectDB();
+dbReady.catch((error) => console.error('[db] Connection failed:', error.message));
 
-  const server = http.createServer(app);
-  const io = initSocket(server);
-  app.set('io', io);
+const server = http.createServer(app);
+const io = initSocket(server);
+app.set('io', io);
+
+// Vercel uses this HTTP server export to handle both REST and WebSocket traffic.
+module.exports = server;
+
+async function start() {
+  await dbReady;
 
   if (!config.isProd) {
     try {
@@ -41,7 +49,9 @@ async function start() {
   process.on('SIGTERM', () => shutdown('SIGTERM'));
 }
 
-start().catch((error) => {
-  console.error('[server] Failed to start:', error);
-  process.exit(1);
-});
+if (require.main === module) {
+  start().catch((error) => {
+    console.error('[server] Failed to start:', error);
+    process.exit(1);
+  });
+}

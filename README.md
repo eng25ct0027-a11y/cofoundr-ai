@@ -300,6 +300,38 @@ CI (`.github/workflows/ci.yml`) runs the server tests and a production client bu
 
 ---
 
+## Vercel deployment
+
+Deploy the repo as **two Vercel projects**:
+
+| Project | Root Directory | Build | Notes |
+| --- | --- | --- | --- |
+| Backend (`cofoundr-api`) | `server` | Zero-config Node/Express | `server.js` exports the HTTP server with Socket.IO attached |
+| Frontend (`cofoundr-ai`) | `client` | Vite (`npm run build` → `dist`) | Uses `VITE_*` env vars to reach the backend |
+
+Backend environment variables:
+
+```text
+NODE_ENV=production
+MONGODB_URI=mongodb+srv://...
+JWT_SECRET=<32+ random characters>
+CLIENT_URL=https://<your-frontend>.vercel.app
+USE_MEMORY_MONGO=false
+```
+
+Frontend environment variables (see `client/.env.example`):
+
+```text
+VITE_API_URL=https://<your-backend>.vercel.app/api
+VITE_SOCKET_URL=https://<your-backend>.vercel.app
+VITE_SOCKET_PATH=/socket.io
+VITE_UPLOADS_URL=https://<your-backend>.vercel.app
+```
+
+Deploy with `npx vercel --prod` from each directory. Socket.IO on Vercel requires Fluid compute (default for new projects), websocket-only transport (handled automatically when `VITE_SOCKET_URL` is set), and Redis pub/sub for presence/messages across multiple function instances. Connections close at the function max duration; the client reconnects automatically.
+
+---
+
 ## Troubleshooting
 
 | Symptom | Fix |

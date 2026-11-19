@@ -17,9 +17,14 @@ function colorFor(name = '') {
   return COLORS[Math.abs(hash) % COLORS.length];
 }
 
+const UPLOADS_BASE = (import.meta.env.VITE_UPLOADS_URL || '').replace(/\/$/, '');
+
 export default function Avatar({ user, size = 44, className = '', showStatus = false, online = false }) {
   const name = user?.name || 'CoFoundr';
-  const src = user?.profileImage;
+  const image = user?.profileImage;
+  const src = image?.startsWith('/uploads/') && UPLOADS_BASE
+    ? `${UPLOADS_BASE}${image}`
+    : image;
 
   return (
     <span
